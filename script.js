@@ -1,51 +1,56 @@
-function generatePassword(length, useLower, useUpper, useNumbers, useSymbols) {
-  const lowercase = 'abcdefghijklmnopqrstuvwxyz';
-  const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const numbers = '0123456789';
-  const symbols = '!@#$%^&*()_+[]{}<>?,./';
+let correctAnswer = null;
 
-  let chars = '';
-  if (useLower) chars += lowercase;
-  if (useUpper) chars += uppercase;
-  if (useNumbers) chars += numbers;
-  if (useSymbols) chars += symbols;
+function generateExercise(operation) {
+  let num1 = Math.floor(Math.random() * 20) + 1;
+  let num2 = Math.floor(Math.random() * 20) + 1;
 
-  if (chars === '') return '⚠️ בחר לפחות סוג אחד של תווים';
+  switch (operation) {
+    case 'add':
+      correctAnswer = num1 + num2;
+      return `${num1} + ${num2} = ?`;
 
-  let password = '';
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * chars.length);
-    password += chars[randomIndex];
+    case 'sub':
+      if (num2 > num1) [num1, num2] = [num2, num1];
+      correctAnswer = num1 - num2;
+      return `${num1} - ${num2} = ?`;
+
+    case 'mul':
+      correctAnswer = num1 * num2;
+      return `${num1} × ${num2} = ?`;
+
+    case 'div':
+      correctAnswer = num1;  // Answer should be integer
+      const product = num1 * num2;
+      return `${product} ÷ ${num2} = ?`;
+
+    default:
+      return '';
   }
-
-  return password;
 }
 
 document.getElementById('generate').addEventListener('click', () => {
-  const length = parseInt(document.getElementById('length').value, 10);
-  const useLower = document.getElementById('lowercase').checked;
-  const useUpper = document.getElementById('uppercase').checked;
-  const useNumbers = document.getElementById('numbers').checked;
-  const useSymbols = document.getElementById('symbols').checked;
+  const operation = document.getElementById('operation').value;
+  const exerciseText = generateExercise(operation);
 
-  const password = generatePassword(length, useLower, useUpper, useNumbers, useSymbols);
-  const result = document.getElementById('result');
-  const copyButton = document.getElementById('copy');
+  document.getElementById('exercise').textContent = exerciseText;
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('answer-label').style.display = 'block';
+  document.getElementById('check').style.display = 'block';
+  document.getElementById('userAnswer').value = '';
+});
 
-  result.textContent = password;
+document.getElementById('check').addEventListener('click', () => {
+  const userAnswer = parseFloat(document.getElementById('userAnswer').value);
+  const feedback = document.getElementById('feedback');
 
-  if (!password.startsWith('⚠️')) {
-    copyButton.style.display = 'block';
-    copyButton.textContent = '📋 העתק ללוח';
-    copyButton.onclick = () => {
-      navigator.clipboard.writeText(password).then(() => {
-        copyButton.textContent = '✅ הועתק!';
-        setTimeout(() => {
-          copyButton.textContent = '📋 העתק ללוח';
-        }, 2000);
-      });
-    };
+  if (isNaN(userAnswer)) {
+    feedback.textContent = '⚠️ נא להזין מספר';
+    feedback.style.color = 'orange';
+  } else if (Math.abs(userAnswer - correctAnswer) < 0.0001) {
+    feedback.textContent = '✅ תשובה נכונה! כל הכבוד!';
+    feedback.style.color = 'green';
   } else {
-    copyButton.style.display = 'none';
+    feedback.textContent = '❌ לא נכון. נסה שוב';
+    feedback.style.color = 'red';
   }
 });

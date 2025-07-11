@@ -24,14 +24,10 @@ label {
   margin: 10px 0;
 }
 
-input[type="number"] {
+select, input[type="number"] {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
-}
-
-.options {
-  margin-top: 15px;
 }
 
 button {
@@ -50,26 +46,22 @@ button:hover {
   background-color: #0056b3;
 }
 
-#result {
+.exercise {
   margin-top: 20px;
+  font-size: 1.5em;
   text-align: center;
+}
+
+#feedback {
+  margin-top: 15px;
   font-size: 1.2em;
-  color: #333;
-  word-break: break-word;
+  text-align: center;
 }
 
-#copy {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background-color: #28a745;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.exercise {
+  margin-top: 20px;
+  font-size: 1.5em;
+  text-align: center;
+  direction: ltr; /* Make the numbers to be from left to right */
 }
 
-#copy:hover {
-  background-color: #1e7e34;
-}

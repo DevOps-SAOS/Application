@@ -3,29 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>מחולל סיסמאות חזקות</title>
+  <title>מחולל תרגילי חשבון</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>🔐 מחולל סיסמאות</h1>
+    <h1>🧮 מחולל תרגילים</h1>
 
     <label>
-      אורך הסיסמה:
-      <input type="number" id="length" min="4" max="32" value="12" />
+      בחר סוג תרגיל:
+      <select id="operation">
+        <option value="add">חיבור</option>
+        <option value="sub">חיסור</option>
+        <option value="mul">כפל</option>
+        <option value="div">חילוק</option>
+      </select>
     </label>
 
-    <div class="options">
-      <label><input type="checkbox" id="lowercase" checked /> אותיות קטנות</label>
-      <label><input type="checkbox" id="uppercase" checked /> אותיות גדולות</label>
-      <label><input type="checkbox" id="numbers" checked /> מספרים</label>
-      <label><input type="checkbox" id="symbols" checked /> תווים מיוחדים</label>
-    </div>
+    <button id="generate">צור תרגיל</button>
 
-    <button id="generate">צור סיסמה</button>
+    <div id="exercise" class="exercise"></div>
 
-    <div id="result"></div>
-    <button id="copy" style="display: none;">📋 העתק ללוח</button>
+    <label style="display:none;" id="answer-label">
+      התשובה שלך:
+      <input type="number" id="userAnswer" />
+    </label>
+
+    <button id="check" style="display:none;">בדוק תשובה</button>
+
+    <div id="feedback"></div>
   </div>
 
   <script src="script.js"></script>
