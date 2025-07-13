@@ -13,7 +13,4 @@ keypair: math_app_key_pair
 aws_ubuntu_ami: ami-01e444924a2233b07
 Server_type: t2.micro
 server_volume_size: 8
-vpc_id: vpc-0f5e6f5351c23a859
-subnet_id: subnet-068e0b5e74dd8dfc4
-igw_id: igw-05d999a0341355b9b
-server_id: i-0dfaace504e61b3a4
+
