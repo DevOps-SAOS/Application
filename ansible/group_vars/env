@@ -1,0 +1,19 @@
+server_name: SAOS-APP
+env: dev
+
+vpc_name: saos-vpc
+network: 10.1.0.0/16
+subnet_public: 10.1.0.0/24
+env_name: saos
+aws_region: eu-central-1
+subnet1: eu-central-1a
+
+keypair: math_app_key_pair
+
+aws_ubuntu_ami: ami-01e444924a2233b07
+Server_type: t2.micro
+server_volume_size: 8
+vpc_id: vpc-0f5e6f5351c23a859
+subnet_id: subnet-068e0b5e74dd8dfc4
+igw_id: igw-05d999a0341355b9b
+server_id: i-0dfaace504e61b3a4

@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+  web:
+    container_name: math_exercise_app
+    environment:
+      - NODE_ENV=prod 
+    image: ofigu/math_exercise_app:latest
+    ports:
+      - "80:3000"
+    
