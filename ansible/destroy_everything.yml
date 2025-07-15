@@ -5,11 +5,34 @@
   gather_facts: false
   vars_files:
     - group_vars/env
+    - group_vars/docker.env
   vars:
     ansible_host_key_checking: false
     ansible_python_interpreter: /usr/bin/python3
 
   tasks:
+
+    - name: Get DockerHub authentication token
+      uri:
+        url: "https://hub.docker.com/v2/users/login/"
+        method: POST
+        body_format: json
+        body:
+          username: "{{ docker_user }}"
+          password: "{{ docker_token }}"
+      register: auth_response
+      when: docker_user is defined and docker_token is defined
+      ignore_errors: yes
+
+    - name: Delete DockerHub repository
+      uri:
+        url: "https://hub.docker.com/v2/repositories/{{ docker_user }}/math_exercise_app/"
+        method: DELETE
+        headers:
+          Authorization: "JWT {{ auth_response.json.token }}"
+        status_code: [200, 202, 204, 404]
+      when: auth_response is succeeded
+      ignore_errors: yes
 
     - name: Terminate EC2 instance
       amazon.aws.ec2_instance:
@@ -95,4 +118,4 @@
 
     - name: Show final message
       debug:
-        msg: "All infrastructure resources have been destroyed."
+        msg: "All infrastructure resources have been destroyed and Docker images cleaned up."
