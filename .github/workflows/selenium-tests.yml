@@ -3,23 +3,22 @@ name: Run Selenium Tests
 on:
   push:
     branches:
-      - main # להפעיל את ה־workflow כאשר יש שינוי ב־main
+      - main
   pull_request:
     branches:
-      - main # להפעיל את ה־workflow גם כאשר יש PR ל־main
+      - main
 
 jobs:
-  selenium-tests:
-    runs-on: ubuntu-latest # הרצת ה־workflow על מערכת Ubuntu
-
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2 # שלב זה שומר על קוד הפרויקט ב־workflow
+        uses: actions/checkout@v2
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8' # השתמש בגרסה שאתה עובד איתה
+          python-version: '3.8'
 
       - name: Install dependencies
         run: |
@@ -29,3 +28,15 @@ jobs:
       - name: Run Selenium Tests
         run: |
           python ./test_pass_gen.py
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy to production
+        run: |
+          # הוסיפי כאן את פקודות הדיפלוי שלך
+          echo "Deploying to production..."
