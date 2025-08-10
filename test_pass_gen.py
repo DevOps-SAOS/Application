@@ -24,7 +24,7 @@ for option in options:
     chrome_options.add_argument(option)
 
 def test_site():
-    url = "http://18.199.98.148/"    
+    url = "http://18.195.170.226//"    
 
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     
