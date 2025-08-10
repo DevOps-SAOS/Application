@@ -69,6 +69,7 @@ def test_site():
       
         feedback = driver.find_element(By.ID, "feedback").text
         print(f"פידבק: {feedback}")
+        print("hi")
 
       
         assert "נכונה" in feedback, f"פידבק לא נכנס, קיבלת: {feedback}"
