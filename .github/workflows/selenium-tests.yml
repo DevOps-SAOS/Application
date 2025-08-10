@@ -1,0 +1,31 @@
+name: Run Selenium Tests
+
+on:
+  push:
+    branches:
+      - main # להפעיל את ה־workflow כאשר יש שינוי ב־main
+  pull_request:
+    branches:
+      - main # להפעיל את ה־workflow גם כאשר יש PR ל־main
+
+jobs:
+  selenium-tests:
+    runs-on: ubuntu-latest # הרצת ה־workflow על מערכת Ubuntu
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2 # שלב זה שומר על קוד הפרויקט ב־workflow
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8' # השתמש בגרסה שאתה עובד איתה
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install selenium webdriver-manager
+
+      - name: Run Selenium Tests
+        run: |
+          python ./test_pass_gen.py
