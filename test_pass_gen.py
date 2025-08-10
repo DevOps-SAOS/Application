@@ -71,7 +71,7 @@ def test_site():
         print(f"פידבק: {feedback}")
 
       
-        assert "נכון" in feedback, f"פידבק לא נכנס, קיבלת: {feedback}"
+        assert "נכונה" in feedback, f"פידבק לא נכנס, קיבלת: {feedback}"
 
     else:
         print(f"לא נמצא תרגיל תקני: {exercise_text}")
