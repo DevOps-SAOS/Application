@@ -47,10 +47,10 @@ document.getElementById('check').addEventListener('click', () => {
     feedback.textContent = '⚠️ נא להזין מספר'
     feedback.style.color = 'orange'
   } else if (Math.abs(userAnswer - correctAnswer) < 0.0001) {
-    feedback.textContent = '✅ Correct answer! Well done!'
+    feedback.textContent = '✅ תשובה נכונה! כל הכבוד!'
     feedback.style.color = 'green'
   } else {
-    feedback.textContent = '❌Incorrect. Try again.'
+    feedback.textContent = '❌ לא נכון. נסה שוב'
     feedback.style.color = 'red'
   }
 })
