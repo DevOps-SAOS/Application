@@ -7,7 +7,7 @@ on:
     branches: ['main']
 
 env:
-  IMAGE_NAME: your_dockerhub_user/your_image_name
+  IMAGE_NAME: ofigu/math_exercise_app
 
 concurrency:
   group: ci-${{ github.ref }}

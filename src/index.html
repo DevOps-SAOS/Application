@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="he">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>מחולל תרגילי חשבון</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="container">
-    <h1>🧮 מחולל תרגילים</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>מחולל תרגילי חשבון</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🧮 מחולל תרגילים</h1>
 
-    <label>
-      בחר סוג תרגיל:
-      <select id="operation">
-        <option value="add">חיבור</option>
-        <option value="sub">חיסור</option>
-        <option value="mul">כפל</option>
-        <option value="div">חילוק</option>
-      </select>
-    </label>
+      <label>
+        בחר סוג תרגיל:
+        <select id="operation">
+          <option value="add">חיבור</option>
+          <option value="sub">חיסור</option>
+          <option value="mul">כפל</option>
+          <option value="div">חילוק</option>
+        </select>
+      </label>
 
-    <button id="generate">צור תרגיל</button>
+      <button id="generate">צור תרגיל</button>
 
-    <div id="exercise" class="exercise"></div>
+      <div id="exercise" class="exercise"></div>
 
-    <label style="display:none;" id="answer-label">
-      התשובה שלך:
-      <input type="number" id="userAnswer" />
-    </label>
+      <label style="display: none" id="answer-label">
+        התשובה שלך:
+        <input type="number" id="userAnswer" />
+      </label>
 
-    <button id="check" style="display:none;">בדוק תשובה</button>
+      <button id="check" style="display: none">בדוק תשובה</button>
 
-    <div id="feedback"></div>
-  </div>
+      <div id="feedback"></div>
+    </div>
 
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

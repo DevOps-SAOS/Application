@@ -14,8 +14,8 @@ aws_ubuntu_ami: ami-01e444924a2233b07
 Server_type: t2.micro
 server_volume_size: 8
 
-vpc_id: vpc-09439ac390656e852
-subnet_id: subnet-06d15f0d291f8923c
-igw_id: igw-00105b4232b687f0b
-route_table_id: rtb-02da78a6710ea2064
-server_id: i-055f82b21ad498144
+vpc_id: vpc-00172ab9939fc9250
+subnet_id: subnet-09f9f9b3c12ee36bd
+igw_id: igw-0f7a86e6e39974f25
+route_table_id: rtb-0626a7254fcadefdb
+server_id: i-0328316efe91cd8a6
