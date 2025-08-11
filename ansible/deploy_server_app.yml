@@ -12,15 +12,15 @@
   tasks:
     - name: create VPC
       amazon.aws.ec2_vpc_net:
-        name: "{{ vpc_name }}"
-        cidr_block: "{{ network }}"
-        region: "{{ aws_region }}"
+        name: '{{ vpc_name }}'
+        cidr_block: '{{ network }}'
+        region: '{{ aws_region }}'
         state: present
         dns_hostnames: yes
         dns_support: yes
         multi_ok: no
         tags:
-          Name: "{{ vpc_name }}"
+          Name: '{{ vpc_name }}'
       register: vpc
 
     - name: Add VPC definition to vars file
@@ -34,16 +34,21 @@
     - name: associate subnet to the VPC
       amazon.aws.ec2_vpc_subnet:
         state: present
-        vpc_id: "{{ vpc.vpc.id }}"
-        region: "{{ aws_region }}"
-        cidr: "{{ item.env_network }}"
-        map_public: "{{ item.external_ip }}"
-        az: "{{ subnet1 }}"
+        vpc_id: '{{ vpc.vpc.id }}'
+        region: '{{ aws_region }}'
+        cidr: '{{ item.env_network }}'
+        map_public: '{{ item.external_ip }}'
+        az: '{{ subnet1 }}'
         resource_tags:
-          Name: "{{ item.subnet_name }}"
+          Name: '{{ item.subnet_name }}'
         wait: yes
       with_items:
-        - { subnet_name: "{{ vpc_name }}_public", env_network: "{{ subnet_public }}", external_ip: yes, az: "{{ subnet1 }}" }
+        - {
+            subnet_name: '{{ vpc_name }}_public',
+            env_network: '{{ subnet_public }}',
+            external_ip: yes,
+            az: '{{ subnet1 }}',
+          }
       register: subnet
 
     - name: Add subnet definition to vars file
@@ -56,11 +61,11 @@
 
     - name: create IGW
       amazon.aws.ec2_vpc_igw:
-        vpc_id: "{{ vpc.vpc.id }}"
-        region: "{{ aws_region }}"
+        vpc_id: '{{ vpc.vpc.id }}'
+        region: '{{ aws_region }}'
         state: present
         tags:
-          Name: "{{ vpc_name }}_igw"
+          Name: '{{ vpc_name }}_igw'
       register: igw
 
     - name: Add IGW definition to vars file
@@ -73,16 +78,16 @@
 
     - name: Route table for public Subnet
       amazon.aws.ec2_vpc_route_table:
-        vpc_id: "{{ vpc.vpc.id }}"
-        region: "{{ aws_region }}"
+        vpc_id: '{{ vpc.vpc.id }}'
+        region: '{{ aws_region }}'
         state: present
         subnets:
-          - "{{ subnet.results[0].subnet.id }}"
+          - '{{ subnet.results[0].subnet.id }}'
         routes:
           - dest: 0.0.0.0/0
-            gateway_id: "{{ igw.gateway_id }}"
+            gateway_id: '{{ igw.gateway_id }}'
         tags:
-          Name: "{{ vpc_name }}_public_rt"
+          Name: '{{ vpc_name }}_public_rt'
       register: route_table
 
     - name: Add Route Table ID to vars file
@@ -95,10 +100,10 @@
 
     - name: Create security group
       ec2_group:
-        name: "{{ vpc_name }} VPC SG"
-        description: "{{ vpc_name }} VPC SG"
-        vpc_id: "{{ vpc.vpc.id }}"
-        region: "{{ aws_region }}"
+        name: '{{ vpc_name }} VPC SG'
+        description: '{{ vpc_name }} VPC SG'
+        vpc_id: '{{ vpc.vpc.id }}'
+        region: '{{ aws_region }}'
         state: present
         rules:
           - proto: tcp
@@ -110,24 +115,24 @@
 
     - name: Create server
       amazon.aws.ec2_instance:
-        image_id: "{{ aws_ubuntu_ami }}"
+        image_id: '{{ aws_ubuntu_ami }}'
         wait: yes
-        instance_type: "{{ Server_type }}"
-        region: "{{ aws_region }}"
-        key_name: "{{ keypair }}"
+        instance_type: '{{ Server_type }}'
+        region: '{{ aws_region }}'
+        key_name: '{{ keypair }}'
         volumes:
           - device_name: /dev/sda1
             ebs:
               volume_type: gp3
-              volume_size: "{{ server_volume_size }}"
+              volume_size: '{{ server_volume_size }}'
               delete_on_termination: true
         tags:
-          Name: "{{ server_name }}"
-          Environment: "{{ env }}"
+          Name: '{{ server_name }}'
+          Environment: '{{ env }}'
         exact_count: 1
         wait_timeout: 300
-        vpc_subnet_id: "{{ subnet.results[0].subnet.id }}"
-        security_group: "{{ sg.group_id }}"
+        vpc_subnet_id: '{{ subnet.results[0].subnet.id }}'
+        security_group: '{{ sg.group_id }}'
         network:
           assign_public_ip: yes
         state: running
@@ -136,8 +141,8 @@
     - name: get ip of instance
       amazon.aws.ec2_instance_info:
         filters:
-          "tag:Name": "{{ server_name }}"
-          instance-state-name: ["running"]
+          'tag:Name': '{{ server_name }}'
+          instance-state-name: ['running']
       register: ec2_data
 
     - debug: var=ec2_data.instances[0].public_ip_address
@@ -155,7 +160,7 @@
 
     - name: Wait for SSH to start using external IP
       wait_for:
-        host: "{{ ec2_data.instances[0].public_ip_address }}"
+        host: '{{ ec2_data.instances[0].public_ip_address }}'
         port: 22
         timeout: 300
 
@@ -214,13 +219,13 @@
         force: yes
 
     - name: build docker image and push to DockerHub
-      shell: "{{ item }}"
+      shell: '{{ item }}'
       args:
         chdir: /opt/app
       with_items:
-        - docker login -u {{ docker_user }} -p {{ docker_token }}
-        - docker build . --tag {{ docker_user }}/math_exercise_app:latest
-        - docker push {{ docker_user }}/math_exercise_app:latest
+        - docker login -u {{ secrets.DOCKER_USER }} -p {{ secrets.DOCKER_TOKEN }}
+        - docker build . --tag {{ secrets.DOCKER_USER }}/math_exercise_app:latest
+        - docker push {{ secrets.DOCKER_USER }}/math_exercise_app:latest
 
     - name: start docker app
       shell: docker compose up -d
@@ -233,5 +238,5 @@
 
     - debug:
         msg:
-          - "dont forget to change the HOST secret in GitHub to {{ ip_address.stdout }}"
-          - "app is ready to go at http://{{ ip_address.stdout }}"
+          - 'dont forget to change the HOST secret in GitHub to {{ ip_address.stdout }}'
+          - 'app is ready to go at http://{{ ip_address.stdout }}'
