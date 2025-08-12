@@ -1,0 +1,35 @@
+name: upload my image to DockerHub
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: docker build . --tag myapp .
+
+      - name: Run Docker
+        run: docker run -d --name app -p 80:3000 myapp
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Install the necessary packages
+        run: pip install requests webdriver-manager selenium pytest
+
+      - name: Run the PyTest script
+        env:
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: pytest
