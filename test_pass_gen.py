@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import re
 import time
 
-BASE_URL = "http://3.123.22.139/"
+BASE_URL = "http://3.70.135.128/"
 
 def make_driver():
     opts = Options()
