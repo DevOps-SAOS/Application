@@ -140,20 +140,22 @@
         method: POST
         body_format: json
         body:
-          username: '{{ secrets.DOCKER_USER }}'
-          password: '{{ secrets.DOCKER_TOKEN }}'
+          username: '{{ docker_user }}'
+          password: '{{ docker_token }}'
       register: auth_response
       when: docker_user is defined and docker_token is defined
       ignore_errors: yes
 
     - name: Delete DockerHub repository
       uri:
-        url: 'https://hub.docker.com/v2/repositories/{{ secrets.DOCKER_USER }}/math_exercise_app/'
+        url: 'https://hub.docker.com/v2/repositories/{{ docker_user }}/math_exercise_app/'
         method: DELETE
         headers:
           Authorization: 'JWT {{ auth_response.json.token }}'
         status_code: [200, 202, 204, 404]
-      when: auth_response is succeeded
+      when:
+        - docker_user is defined and docker_token is defined
+        - auth_response is defined
       ignore_errors: yes
 
     - name: Terminate EC2 instance

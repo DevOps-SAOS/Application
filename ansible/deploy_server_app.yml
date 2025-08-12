@@ -412,7 +412,6 @@
       ansible.builtin.pause:
         seconds: 30
 
-# --------------------------------------------------------------
 - name: Setup web server
   hosts: app
   user: ubuntu
@@ -462,14 +461,21 @@
         accept_hostkey: yes
         force: yes
 
+    - name: Assert docker credentials provided
+      assert:
+        that:
+          - docker_user is defined and docker_user | length > 0
+          - docker_token is defined and docker_token | length > 0
+        fail_msg: 'docker_user or docker_token missing'
+
     - name: build docker image and push to DockerHub
       shell: '{{ item }}'
       args:
         chdir: /opt/app
       with_items:
-        - docker login -u {{ lookup("env", "DOCKER_USER") }} -p {{ lookup("env", "DOCKER_TOKEN") }}
-        - docker build . --tag {{ lookup("env", "DOCKER_USER") }}/math_exercise_app:latest
-        - docker push {{ lookup("env", "DOCKER_USER") }}/math_exercise_app:latest
+        - docker login -u {{ docker_user }} -p {{ docker_token }}
+        - docker build . --tag {{ docker_user }}/math_exercise_app:latest
+        - docker push {{ docker_user }}/math_exercise_app:latest
 
     - name: start docker app
       shell: docker compose up -d
