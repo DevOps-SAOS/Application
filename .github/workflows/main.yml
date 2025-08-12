@@ -119,6 +119,14 @@ jobs:
         run: |
           python ./test_pass_gen.py
 
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set environment variables
+        run: |
+          echo "DOCKER_USER=${{ secrets.DOCKER_USER }}" >> $GITHUB_ENV
+          echo "DOCKER_TOKEN=${{ secrets.DOCKER_TOKEN }}" >> $GITHUB_ENV
+
   build:
     runs-on: ubuntu-latest
     needs: test
@@ -155,3 +163,21 @@ jobs:
           push: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set environment variables for destroy
+        run: |
+          echo "DOCKER_USER=${{ secrets.DOCKER_USER }}" >> $GITHUB_ENV
+          echo "DOCKER_TOKEN=${{ secrets.DOCKER_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Run actions/checkout@v4
+        uses: actions/checkout@v4
+
+      # הוספת שלב להרוס את המשאבים שלך
+      - name: Destroy cloud infrastructure
+        run: ansible-playbook destroy_everything.yml
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
