@@ -175,7 +175,6 @@ jobs:
       - name: Run actions/checkout@v4
         uses: actions/checkout@v4
 
-      # הוספת שלב להרוס את המשאבים שלך
       - name: Destroy cloud infrastructure
         run: ansible-playbook destroy_everything.yml
         env:

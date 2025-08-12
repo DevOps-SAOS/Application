@@ -467,9 +467,9 @@
       args:
         chdir: /opt/app
       with_items:
-        - docker login -u $DOCKER_USER -p $DOCKER_TOKEN
-        - docker build . --tag $DOCKER_USER/math_exercise_app:latest
-        - docker push $DOCKER_USER/math_exercise_app:latest
+        - docker login -u {{ lookup("env", "DOCKER_USER") }} -p {{ lookup("env", "DOCKER_TOKEN") }}
+        - docker build . --tag {{ lookup("env", "DOCKER_USER") }}/math_exercise_app:latest
+        - docker push {{ lookup("env", "DOCKER_USER") }}/math_exercise_app:latest
 
     - name: start docker app
       shell: docker compose up -d
