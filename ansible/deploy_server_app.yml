@@ -223,9 +223,9 @@
       args:
         chdir: /opt/app
       with_items:
-        - docker login -u {{ secrets.DOCKER_USER }} -p {{ secrets.DOCKER_TOKEN }}
-        - docker build . --tag {{ secrets.DOCKER_USER }}/math_exercise_app:latest
-        - docker push {{ secrets.DOCKER_USER }}/math_exercise_app:latest
+        - docker login -u $DOCKER_USER -p $DOCKER_TOKEN
+        - docker build . --tag $DOCKER_USER/math_exercise_app:latest
+        - docker push $DOCKER_USER/math_exercise_app:latest
 
     - name: start docker app
       shell: docker compose up -d
