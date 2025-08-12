@@ -11,7 +11,7 @@ body {
   background-color: white;
   border-radius: 10px;
   padding: 30px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
@@ -24,7 +24,8 @@ label {
   margin: 10px 0;
 }
 
-select, input[type="number"] {
+select,
+input[type='number'] {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
@@ -64,4 +65,3 @@ button:hover {
   text-align: center;
   direction: ltr; /* Make the numbers to be from left to right */
 }
-
