@@ -10,9 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Build
-        run: docker build . --tag myapp .
+        run: docker build --tag myapp .
 
       - name: Run Docker
         run: docker run -d --name app -p 80:3000 myapp
