@@ -33,16 +33,19 @@ Application/
 ## 🛠️ Technology Stack
 
 ### Frontend
+
 - **HTML5**: Semantic markup with modern standards
 - **CSS3**: Responsive design with modern styling
 - **JavaScript (ES6+)**: Interactive functionality and exercise generation
 
 ### Backend
+
 - **Node.js**: JavaScript runtime environment
 - **Express.js**: Web application framework
 - **Static File Serving**: Efficient delivery of frontend assets
 
 ### DevOps & Infrastructure
+
 - **Docker**: Application containerization
 - **Docker Compose**: Multi-container orchestration
 - **Ansible**: Infrastructure automation and configuration management
@@ -65,17 +68,20 @@ Before running this application, ensure you have the following installed:
 ### Local Development
 
 1. **Clone the repository**
+
    ```bash
    git clone <your-repository-url>
    cd Application
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start the development server**
+
    ```bash
    npm start
    ```
@@ -86,6 +92,7 @@ Before running this application, ensure you have the following installed:
 ### Docker Deployment
 
 1. **Build and run with Docker Compose**
+
    ```bash
    docker-compose up -d
    ```
@@ -96,12 +103,15 @@ Before running this application, ensure you have the following installed:
 ## 🐳 Docker Configuration
 
 ### Dockerfile
+
 The application uses a multi-stage Docker build process:
+
 - **Base Image**: Node.js 20 Alpine for optimal size
 - **Dependencies**: Installed from package.json
 - **Application**: Copied and configured for production
 
 ### Docker Compose
+
 - **Port Mapping**: 80:3000 (host:container)
 - **Environment**: Production configuration
 - **Container Name**: `math_exercise_app`
@@ -113,6 +123,7 @@ The application uses a multi-stage Docker build process:
 The project includes comprehensive Ansible playbooks for automated AWS infrastructure provisioning:
 
 #### Prerequisites
+
 - Configure AWS credentials
 - Set up SSH key pairs
 - Install required Ansible collections
@@ -120,6 +131,7 @@ The project includes comprehensive Ansible playbooks for automated AWS infrastru
 #### Deployment Steps
 
 1. **Configure environment variables**
+
    ```bash
    # Edit ansible/group_vars/env
    vpc_name: "math-app-vpc"
@@ -133,6 +145,7 @@ The project includes comprehensive Ansible playbooks for automated AWS infrastru
    ```
 
 #### Infrastructure Components Created
+
 - **VPC**: Custom virtual private cloud
 - **Subnets**: Public and private network segments
 - **Internet Gateway**: External connectivity
@@ -181,12 +194,14 @@ keypair: "your-keypair-name"
 ## 📱 Application Usage
 
 ### Exercise Types
+
 - **Addition (+)**: Practice basic addition skills
 - **Subtraction (-)**: Improve subtraction abilities
 - **Multiplication (×)**: Master multiplication tables
 - **Division (÷)**: Learn division concepts
 
 ### User Interface
+
 1. Select the desired operation type
 2. Click "Generate Exercise" to create a new problem
 3. Enter your answer in the input field
@@ -196,9 +211,11 @@ keypair: "your-keypair-name"
 ## 🧪 Testing
 
 ### Python Test Script
+
 The project includes `test_pass_gen.py` for testing password generation functionality.
 
 ### Manual Testing
+
 - Test all mathematical operations
 - Verify responsive design on different screen sizes
 - Check error handling and edge cases
@@ -213,11 +230,13 @@ The project includes `test_pass_gen.py` for testing password generation function
 ## 📊 Monitoring and Logging
 
 ### Application Logs
+
 - Express.js server logs
 - Docker container logs
 - AWS CloudWatch integration (configurable)
 
 ### Health Checks
+
 - HTTP endpoint monitoring
 - Container health status
 - Infrastructure availability
@@ -225,6 +244,7 @@ The project includes `test_pass_gen.py` for testing password generation function
 ## 🚀 Deployment Pipeline
 
 ### Automated Workflow
+
 1. **Code Push**: Triggers CI/CD pipeline
 2. **Build**: Docker image creation
 3. **Test**: Automated testing suite
@@ -232,6 +252,7 @@ The project includes `test_pass_gen.py` for testing password generation function
 5. **Verify**: Health checks and monitoring
 
 ### Manual Deployment
+
 ```bash
 # Build and push Docker image
 docker build -t your-username/math_exercise_app:latest .
@@ -244,13 +265,14 @@ ansible-playbook ansible/deploy_server_app.yml
 ## 🧹 Cleanup
 
 ### Destroy Infrastructure
+
 ```bash
 ansible-playbook ansible/destroy_everything.yml
 ```
 
 ### Remove Docker Resources
+
 ```bash
 docker-compose down --volumes --remove-orphans
 docker system prune -a
 ```
-
