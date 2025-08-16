@@ -97,7 +97,7 @@ def test_subtract_incorrect():
         feedback = submit_answer(d, correct_answer + 1)
         assert "לא נכון" in feedback, f"ציפיתי ל'לא נכון', קיבלתי: {feedback}"
     finally:
-        d.quit()
+        d.quit() 
 
 def test_multiply_correct():
     d = make_driver()

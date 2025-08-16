@@ -262,7 +262,7 @@ docker push your-username/math_exercise_app:latest
 ansible-playbook ansible/deploy_server_app.yml
 ```
 
-## 🧹 Cleanup
+## 🧹Cleanup
 
 ### Destroy Infrastructure
 
